@@ -42,9 +42,9 @@ class YENavigationController: UINavigationController {
         modalPresentationStyle = .fullScreen
         navigationBar.prefersLargeTitles = false
         
-        navigationBar.tintColor = .black
+        navigationBar.tintColor = UIColor.black.withAlphaComponent(0.5)
         navigationBar.barTintColor = UIColor.YourEyes.backgroundColor
-        navigationBar.backIndicatorImage = UIImage(named: "back_ic")
-        navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "back_ic")
+        navigationBar.backIndicatorImage = UIImage(named: "back_ic")?.withRenderingMode(.alwaysTemplate)
+        navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "back_ic")?.withRenderingMode(.alwaysTemplate)
     }
 }

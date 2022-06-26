@@ -11,11 +11,10 @@ import AVFoundation
 
 class CameraViewController: YEBaseViewController {
     
-    let previewView = UIView().then {
-        $0.backgroundColor = .gray
-    }
+    let previewView = UIView()
     let captureImageView = UIImageView().then {
         $0.backgroundColor = .brown
+        $0.isHidden = true
     }
     let pressButton = UIButton().then {
         $0.setImage(UIImage(named: "camera_ic"), for: .normal)
@@ -41,7 +40,7 @@ class CameraViewController: YEBaseViewController {
             $0.edges.equalToSuperview()
         }
         pressButton.snp.makeConstraints {
-            $0.bottom.equalTo(-ViewUI.MainBottomInset)
+            $0.bottom.equalTo(-ViewUI.MainBottomInset - ViewUI.Padding * 2)
             $0.size.equalTo(64)
             $0.centerX.equalToSuperview()
         }
@@ -52,18 +51,27 @@ class CameraViewController: YEBaseViewController {
             $0.bottom.equalTo(-ViewUI.MainBottomInset)
         }
         
-        showCameraIfAuthorized()
+        pressButton.isUserInteractionEnabled = false
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard pressButton.isUserInteractionEnabled else {
+            showCameraIfAuthorized()
+            return
+        }
+        
+        captureSession.startRunning()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
         self.captureSession.stopRunning()
     }
     
     private func showCameraIfAuthorized() {
-        pressButton.isUserInteractionEnabled = false
-        
         let cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
         
         switch cameraAuthorization {
@@ -75,7 +83,7 @@ class CameraViewController: YEBaseViewController {
                     if authorized {
                         self?.showCamera()
                     } else {
-                        self?.handleDeniedCameraAuthorization()
+                        print("handle Denied Camera Authorization")
                     }
                 }
             })
@@ -107,7 +115,11 @@ class CameraViewController: YEBaseViewController {
     }
     
     private func handleDeniedCameraAuthorization() {
-        self.showAlertWith(message: "Unable to access back camera")
+        self.showAlertWithTwoOption(title: "", message: "Go to setting", okAction: {
+            if let appSettings = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(appSettings) {
+                UIApplication.shared.open(appSettings)
+            }
+        })
     }
     
     func setupLivePreview() {
@@ -120,17 +132,8 @@ class CameraViewController: YEBaseViewController {
         guard let videoPreviewLayer = videoPreviewLayer else { return }
         previewView.layer.addSublayer(videoPreviewLayer)
         
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else { return }
-            self.captureSession.startRunning()
-            
-            DispatchQueue.main.async {  [weak self] in
-                guard let self = self else { return }
-                
-                self.videoPreviewLayer?.frame = self.previewView.bounds
-                print(self.previewView.bounds)
-            }
-        }
+        self.videoPreviewLayer?.frame = self.previewView.bounds
+        self.captureSession.startRunning()
     }
     
     @objc func didTakePhoto() {
@@ -145,5 +148,11 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
             
         let image = UIImage(data: imageData)
         captureImageView.image = image
+        
+        let model = ConversationViewModel(imageData: image)
+        let vc = ConversationViewController()
+        vc.viewModel = model
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

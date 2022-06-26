@@ -8,9 +8,6 @@
 import UIKit
 
 class YEBaseViewController: BaseViewController, UIScrollViewDelegate {
-    var page: Int = 1
-    var loadMore: Bool = true
-    var isLoading: Bool = false
     var isFirstLayout: Bool = true
     var isFirstBlur: Bool = true
     

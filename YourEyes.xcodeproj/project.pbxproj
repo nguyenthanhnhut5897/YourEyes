@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		902F3A1428689AC900481C30 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A1328689AC900481C30 /* ConversationViewController.swift */; };
+		902F3A1628689B1D00481C30 /* TableViewCellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A1528689B1C00481C30 /* TableViewCellProtocol.swift */; };
+		902F3A1828689B3900481C30 /* BaseTabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A1728689B3900481C30 /* BaseTabelViewCell.swift */; };
+		902F3A1A28689B9100481C30 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A1928689B9100481C30 /* BaseViewModel.swift */; };
+		902F3A1E28689C8100481C30 /* MessageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A1D28689C8100481C30 /* MessageResponse.swift */; };
+		902F3A2028689D0C00481C30 /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A1F28689D0C00481C30 /* ConversationViewModel.swift */; };
+		902F3A2328689FC300481C30 /* InComeMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A2228689FC300481C30 /* InComeMessageCell.swift */; };
+		902F3A2528689FCD00481C30 /* InComeMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A2428689FCD00481C30 /* InComeMessageModel.swift */; };
+		902F3A272868A27800481C30 /* UITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A262868A27800481C30 /* UITableViewExtensions.swift */; };
+		902F3A292868B21800481C30 /* RecordVoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A282868B21800481C30 /* RecordVoiceViewController.swift */; };
 		903974592868430A007376A8 /* Pods_YourEyes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0326B647336749BBF86F1C79 /* Pods_YourEyes.framework */; };
 		9084495C28680914008237F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9084495B28680914008237F3 /* AppDelegate.swift */; };
 		9084496628680914008237F3 /* YourEyes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9084496428680914008237F3 /* YourEyes.xcdatamodeld */; };
@@ -57,6 +67,16 @@
 		151C8B3AC5323158DAC857C2 /* Pods-YourEyes-YourEyesUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YourEyes-YourEyesUITests.debug.xcconfig"; path = "Target Support Files/Pods-YourEyes-YourEyesUITests/Pods-YourEyes-YourEyesUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		47B53DE4D952F1B9BDB9B759 /* Pods-YourEyes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YourEyes.release.xcconfig"; path = "Target Support Files/Pods-YourEyes/Pods-YourEyes.release.xcconfig"; sourceTree = "<group>"; };
 		69F2A4F3203F161EB27DEEAF /* Pods-YourEyes-YourEyesUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YourEyes-YourEyesUITests.release.xcconfig"; path = "Target Support Files/Pods-YourEyes-YourEyesUITests/Pods-YourEyes-YourEyesUITests.release.xcconfig"; sourceTree = "<group>"; };
+		902F3A1328689AC900481C30 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		902F3A1528689B1C00481C30 /* TableViewCellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellProtocol.swift; sourceTree = "<group>"; };
+		902F3A1728689B3900481C30 /* BaseTabelViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabelViewCell.swift; sourceTree = "<group>"; };
+		902F3A1928689B9100481C30 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		902F3A1D28689C8100481C30 /* MessageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageResponse.swift; sourceTree = "<group>"; };
+		902F3A1F28689D0C00481C30 /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
+		902F3A2228689FC300481C30 /* InComeMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InComeMessageCell.swift; sourceTree = "<group>"; };
+		902F3A2428689FCD00481C30 /* InComeMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InComeMessageModel.swift; sourceTree = "<group>"; };
+		902F3A262868A27800481C30 /* UITableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
+		902F3A282868B21800481C30 /* RecordVoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVoiceViewController.swift; sourceTree = "<group>"; };
 		9084495828680914008237F3 /* YourEyes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YourEyes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9084495B28680914008237F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9084496528680914008237F3 /* YourEyes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = YourEyes.xcdatamodel; sourceTree = "<group>"; };
@@ -142,6 +162,41 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		902F3A1228689A8400481C30 /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				902F3A1B28689BF500481C30 /* Views */,
+				902F3A1328689AC900481C30 /* ConversationViewController.swift */,
+				902F3A1F28689D0C00481C30 /* ConversationViewModel.swift */,
+			);
+			path = Conversation;
+			sourceTree = "<group>";
+		};
+		902F3A1B28689BF500481C30 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				902F3A2128689F8D00481C30 /* InComeMessage */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		902F3A1C28689C1700481C30 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				902F3A1D28689C8100481C30 /* MessageResponse.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		902F3A2128689F8D00481C30 /* InComeMessage */ = {
+			isa = PBXGroup;
+			children = (
+				902F3A2228689FC300481C30 /* InComeMessageCell.swift */,
+				902F3A2428689FCD00481C30 /* InComeMessageModel.swift */,
+			);
+			path = InComeMessage;
+			sourceTree = "<group>";
+		};
 		9084494F28680914008237F3 = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +222,7 @@
 		9084495A28680914008237F3 /* YourEyes */ = {
 			isa = PBXGroup;
 			children = (
+				902F3A1C28689C1700481C30 /* Entities */,
 				908449AC286817DB008237F3 /* Localize */,
 				908449A928681758008237F3 /* Enums */,
 				9084499728680D93008237F3 /* Extensions */,
@@ -202,6 +258,7 @@
 		9084498E28680CA1008237F3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				902F3A1228689A8400481C30 /* Conversation */,
 				908449B528681EBA008237F3 /* Camera */,
 				9084499228680CEE008237F3 /* Base */,
 			);
@@ -214,6 +271,10 @@
 				9084499A28680F1E008237F3 /* BaseViewController.swift */,
 				9084499328680D36008237F3 /* YEBaseViewController.swift */,
 				9084499528680D70008237F3 /* YENavigationController.swift */,
+				902F3A1528689B1C00481C30 /* TableViewCellProtocol.swift */,
+				902F3A1728689B3900481C30 /* BaseTabelViewCell.swift */,
+				902F3A1928689B9100481C30 /* BaseViewModel.swift */,
+				902F3A282868B21800481C30 /* RecordVoiceViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -226,6 +287,7 @@
 				908449A72868170E008237F3 /* ErrorExtensions.swift */,
 				908449AF28681A1F008237F3 /* StringExtensions.swift */,
 				908449B128681BA6008237F3 /* UIViewExtensions.swift */,
+				902F3A262868A27800481C30 /* UITableViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -507,20 +569,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				902F3A2528689FCD00481C30 /* InComeMessageModel.swift in Sources */,
 				908449A428681213008237F3 /* HideKeyboardable.swift in Sources */,
+				902F3A2328689FC300481C30 /* InComeMessageCell.swift in Sources */,
+				902F3A1A28689B9100481C30 /* BaseViewModel.swift in Sources */,
 				908449B728681ED9008237F3 /* CameraViewController.swift in Sources */,
 				9084499628680D70008237F3 /* YENavigationController.swift in Sources */,
+				902F3A292868B21800481C30 /* RecordVoiceViewController.swift in Sources */,
 				908449AE28681971008237F3 /* Strings.swift in Sources */,
 				9084495C28680914008237F3 /* AppDelegate.swift in Sources */,
 				908449B428681CCA008237F3 /* Font.swift in Sources */,
 				9084496628680914008237F3 /* YourEyes.xcdatamodeld in Sources */,
 				908449A2286811C2008237F3 /* Then.swift in Sources */,
 				908449AB2868177B008237F3 /* ErrorCode.swift in Sources */,
+				902F3A272868A27800481C30 /* UITableViewExtensions.swift in Sources */,
 				9084499F286810BC008237F3 /* UIApplicationExtensions.swift in Sources */,
+				902F3A1828689B3900481C30 /* BaseTabelViewCell.swift in Sources */,
+				902F3A1428689AC900481C30 /* ConversationViewController.swift in Sources */,
+				902F3A2028689D0C00481C30 /* ConversationViewModel.swift in Sources */,
 				9084499B28680F1E008237F3 /* BaseViewController.swift in Sources */,
 				908449A82868170E008237F3 /* ErrorExtensions.swift in Sources */,
 				9084499D28680FDB008237F3 /* ViewUI.swift in Sources */,
 				908449A62868137E008237F3 /* DataCenter.swift in Sources */,
+				902F3A1E28689C8100481C30 /* MessageResponse.swift in Sources */,
+				902F3A1628689B1D00481C30 /* TableViewCellProtocol.swift in Sources */,
 				9084499428680D36008237F3 /* YEBaseViewController.swift in Sources */,
 				9084499928680DAE008237F3 /* UIColorExtensions.swift in Sources */,
 				908449B228681BA6008237F3 /* UIViewExtensions.swift in Sources */,

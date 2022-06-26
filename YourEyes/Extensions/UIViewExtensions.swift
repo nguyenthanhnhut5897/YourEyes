@@ -22,4 +22,10 @@ extension UIView {
         
         return aLabel
     }
+    
+    func roundCorners(corners: CACornerMask, radius: CGFloat) {
+        self.layer.maskedCorners = corners
+        self.layer.cornerRadius = radius
+        self.clipsToBounds = true
+    }
 }

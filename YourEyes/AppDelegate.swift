@@ -30,7 +30,10 @@ import SVProgressHUD
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
         
-        let navi = YENavigationController(rootViewController: CameraViewController())
+        let model = ConversationViewModel(imageData: nil)
+        let vc = ConversationViewController()
+        vc.viewModel = model
+        let navi = YENavigationController(rootViewController: vc)
         rootViewController = navi
         
         // Custom progress hub

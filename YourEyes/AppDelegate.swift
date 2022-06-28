@@ -33,7 +33,7 @@ import SVProgressHUD
         let model = ConversationViewModel(imageData: nil)
         let vc = ConversationViewController()
         vc.viewModel = model
-        let navi = YENavigationController(rootViewController: vc)
+        let navi = YENavigationController(rootViewController: CameraViewController())
         rootViewController = navi
         
         // Custom progress hub

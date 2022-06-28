@@ -16,8 +16,8 @@ struct ConversationViewControllerUX {
 }
 
 class ConversationViewController: RecordVoiceViewController {
-    let backgroundImageview = UIImageView().then{
-        $0.contentMode = .scaleAspectFit
+    let backgroundImageview = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
     }
     let tableView = UITableView()
     let voiceButton = UIButton().then {
@@ -40,7 +40,7 @@ class ConversationViewController: RecordVoiceViewController {
         voiceButton.addTarget(self, action: #selector(didTapVoiceButton), for: .touchUpInside)
         navigationItem.title = "Q&A"
         
-        addBlurTopView()
+//        addBlurTopView()
         tableView.backgroundColor = .clear
         tableView.delegate = self
         tableView.dataSource = self

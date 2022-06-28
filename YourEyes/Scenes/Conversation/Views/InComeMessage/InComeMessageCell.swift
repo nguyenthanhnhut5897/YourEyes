@@ -13,7 +13,7 @@ class InComeMessageCell: BaseTableViewCell, BaseCellConfigurable {
         $0.clipsToBounds = true
     }
     let contentLabel = UILabel().then {
-        $0.textColor = UIColor.YourEyes.textColor
+        $0.textColor = .white
         $0.font = Font(.system(.regular), size: 14).value
     }
     

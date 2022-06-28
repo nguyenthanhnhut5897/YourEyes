@@ -89,23 +89,27 @@ class RecordVoiceViewController: YEBaseViewController {
     func playSound() {
         let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
         
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
-
-            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
-            player = try AVAudioPlayer(contentsOf: audioFilename.absoluteURL, fileTypeHint: AVFileType.mp3.rawValue)
-
-            /* iOS 10 and earlier require the following line:
-            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
-
-            guard let player = player else { return }
-
-            player.play()
-
-            transcribeAudio(url: audioFilename)
-        } catch let error {
-            print(error.localizedDescription)
+        DispatchQueue.global().asyncAfter(deadline: .now()) { [weak self] in
+            self?.transcribeAudio(url: audioFilename)
+        
+//            do {
+//                try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+//                try AVAudioSession.sharedInstance().setActive(true)
+//
+//                /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+//                self?.player = try AVAudioPlayer(contentsOf: audioFilename.absoluteURL, fileTypeHint: AVFileType.m4a.rawValue)
+//
+//                /* iOS 10 and earlier require the following line:
+//                player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
+//
+//                guard let player = self?.player else { return }
+//
+//                player.delegate = self
+//                player.prepareToPlay()
+//                player.play()
+//            } catch let error {
+//                print(error.localizedDescription)
+//            }
         }
     }
     
@@ -159,5 +163,12 @@ extension RecordVoiceViewController: AVAudioRecorderDelegate {
         if !flag {
             finishRecording(success: false)
         }
+    }
+}
+
+extension RecordVoiceViewController: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        self.player?.stop()
+        self.player = nil
     }
 }

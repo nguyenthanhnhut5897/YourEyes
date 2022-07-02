@@ -8,14 +8,16 @@
 import UIKit
 import AVFoundation
 import Speech
+import SVProgressHUD
 
 class RecordVoiceViewController: YEBaseViewController {
     var recordingSession: AVAudioSession?
     var audioRecorder: AVAudioRecorder?
-    var player: AVAudioPlayer?
     var isRequestRecording: Bool = false
     var isAllowRecording: Bool = false
+    let textToSpeech = TextToSpeech()
     
+    // MARK: Voice record Permission
     func requestRecording() {
         recordingSession = AVAudioSession.sharedInstance()
 
@@ -41,41 +43,6 @@ class RecordVoiceViewController: YEBaseViewController {
         }
     }
     
-    func startRecording() {
-        let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
-
-        let settings = [
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-            AVSampleRateKey: 12000,
-            AVNumberOfChannelsKey: 1,
-            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-        ]
-
-        do {
-            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
-            audioRecorder?.delegate = self
-            audioRecorder?.record()
-
-//            recordButton.setTitle("Tap to Stop", for: .normal)
-        } catch {
-            finishRecording(success: false)
-        }
-    }
-    
-    func finishRecording(success: Bool) {
-        audioRecorder?.stop()
-        audioRecorder = nil
-        
-        playSound()
-    }
-    
-    func loadRecording() {}
-    
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
-    
     private func handleDeniedAudioAuthorization() {
         guard isRequestRecording else { return }
         
@@ -86,34 +53,7 @@ class RecordVoiceViewController: YEBaseViewController {
         })
     }
     
-    func playSound() {
-        let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
-        
-        DispatchQueue.global().asyncAfter(deadline: .now()) { [weak self] in
-            self?.transcribeAudio(url: audioFilename)
-        
-//            do {
-//                try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-//                try AVAudioSession.sharedInstance().setActive(true)
-//
-//                /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
-//                self?.player = try AVAudioPlayer(contentsOf: audioFilename.absoluteURL, fileTypeHint: AVFileType.m4a.rawValue)
-//
-//                /* iOS 10 and earlier require the following line:
-//                player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
-//
-//                guard let player = self?.player else { return }
-//
-//                player.delegate = self
-//                player.prepareToPlay()
-//                player.play()
-//            } catch let error {
-//                print(error.localizedDescription)
-//            }
-        }
-    }
-    
-    // MARK: SFSpeechRecognizer
+    // MARK: SFSpeechRecognizer Authorization
     func requestTranscribePermissions() {
         switch SFSpeechRecognizer.authorizationStatus() {
         case .notDetermined:
@@ -133,16 +73,72 @@ class RecordVoiceViewController: YEBaseViewController {
         }
     }
     
+    // MARK: Recording
+    
+    func startRecording() {
+        let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
+
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+
+        do {
+            audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+            audioRecorder?.delegate = self
+            audioRecorder?.isMeteringEnabled = true
+            audioRecorder?.record()
+            startCountTimer(timeInterval: 0.01)
+            
+//            recordButton.setTitle("Tap to Stop", for: .normal)
+        } catch {
+            finishRecording(success: false)
+        }
+    }
+    
+    func finishRecording(success: Bool) {
+        audioRecorder?.stop()
+        audioRecorder = nil
+        
+        transcribeSound()
+    }
+    
+    func loadRecording() {}
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    // MARK: Speech to text
+    
+    func transcribeSound() {
+        let audioFilename = getDocumentsDirectory().appendingPathComponent("recording.m4a")
+        
+        DispatchQueue.global().asyncAfter(deadline: .now()) { [weak self] in
+            self?.transcribeAudio(url: audioFilename)
+        }
+    }
+    
     func transcribeAudio(url: URL) {
         // create a new recognizer and point it at our audio
         let recognizer = SFSpeechRecognizer()
         let request = SFSpeechURLRecognitionRequest(url: url)
 
+        SVProgressHUD.show()
+        
         // start recognition!
         recognizer?.recognitionTask(with: request) { [unowned self] (result, error) in
+            
+            SVProgressHUD.dismiss()
+            
             // abort if we didn't get any transcription back
             guard let result = result else {
                 print("There was an error: \(error!)")
+                self.showAlertWith(message: "There was an error")
+                self.textToSpeech.start(["There was an error"], [1])
                 return
             }
 
@@ -155,7 +151,29 @@ class RecordVoiceViewController: YEBaseViewController {
         }
     }
     
-    func speechTo(text: String) {}
+    func speechTo(text: String) {
+        self.textToSpeech.start([text], [1])
+    }
+    
+    // MARK:
+    override func handleInput(_ timer: Timer) {
+        super.handleInput(timer)
+        
+        self.audioRecorder?.updateMeters()
+        self.updateVoiceLevel(level: self.normalizeSoundLevel(level: self.audioRecorder?.averagePower(forChannel: 0) ?? 0))
+    }
+    
+    override func handleFinishCountTimer() {
+        self.finishRecording(success: true)
+    }
+    
+    private func normalizeSoundLevel(level: Float) -> CGFloat {
+        guard level < 0 else { return 0.1 } // Check if level start
+        
+        return max(0.2, CGFloat(level) + 50) / 2 // between 0.1 and 25
+    }
+    
+    func updateVoiceLevel(level: CGFloat) {}
 }
 
 extension RecordVoiceViewController: AVAudioRecorderDelegate {
@@ -163,12 +181,5 @@ extension RecordVoiceViewController: AVAudioRecorderDelegate {
         if !flag {
             finishRecording(success: false)
         }
-    }
-}
-
-extension RecordVoiceViewController: AVAudioPlayerDelegate {
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        self.player?.stop()
-        self.player = nil
     }
 }

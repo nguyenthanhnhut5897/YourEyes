@@ -26,6 +26,13 @@ class ConversationViewController: RecordVoiceViewController {
         $0.layer.cornerRadius = ConversationViewControllerUX.ButtonSize / 2
         $0.imageView?.contentMode = .scaleAspectFit
     }
+    let voiceLevel = UIView().then {
+        $0.backgroundColor = UIColor.YourEyes.linkColor
+        $0.layer.cornerRadius = 1
+    }
+    let pulsatingButton = PulsatingButton(frame: CGRect(x: 0, y: 0, width: ConversationViewControllerUX.ButtonSize, height: ConversationViewControllerUX.ButtonSize)).then {
+        $0.isHidden = true
+    }
     
     var viewModel = ConversationViewModel()
     
@@ -35,18 +42,18 @@ class ConversationViewController: RecordVoiceViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.addSubviews(backgroundImageview, tableView, voiceButton)
+        
+        view.addSubviews(backgroundImageview, tableView, pulsatingButton, voiceButton, voiceLevel)
         voiceButton.addTarget(self, action: #selector(didTapVoiceButton), for: .touchUpInside)
         navigationItem.title = "Q&A"
         
-//        addBlurTopView()
         tableView.backgroundColor = .clear
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.sectionFooterHeight = 0
-        tableView.registerCells(InComeMessageCell.self)
+        tableView.registerCells(InComeMessageCell.self,
+                                OutComeMessageCell.self)
         tableView.contentInset.bottom = ConversationViewControllerUX.ContentBottomInset
         tableView.verticalScrollIndicatorInsets.bottom = ConversationViewControllerUX.ContentBottomInset
         
@@ -57,12 +64,28 @@ class ConversationViewController: RecordVoiceViewController {
             $0.edges.equalToSuperview()
         }
         voiceButton.snp.makeConstraints {
-            $0.bottom.equalTo(-ViewUI.MainBottomInset - ViewUI.Padding * 2)
+            $0.bottom.equalTo(-ViewUI.MainBottomInset - ViewUI.Padding * 3)
             $0.size.equalTo(ConversationViewControllerUX.ButtonSize)
             $0.centerX.equalToSuperview()
         }
+        voiceLevel.snp.makeConstraints {
+            $0.centerX.equalTo(voiceButton)
+            $0.top.equalTo(voiceButton.snp.bottom).offset(8)
+            $0.height.equalTo(2)
+            $0.width.equalTo(0)
+        }
         
         backgroundImageview.image = viewModel.imageData
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard isFirstLayout else { return }
+        
+        pulsatingButton.center = voiceButton.center
+        pulsatingButton.pulse()
+        isFirstLayout = false
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -78,7 +101,10 @@ class ConversationViewController: RecordVoiceViewController {
             if let error = self.viewModel.error {
                 self.showCommonAlertError(error)
             } else {
-                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.scrollToLastItem(at: .top, animated: false)
+                }
             }
         }
     }
@@ -94,6 +120,7 @@ class ConversationViewController: RecordVoiceViewController {
     
     override func loadRecording() {
         if audioRecorder == nil {
+            animateWhenRecording(true)
             startRecording()
         } else {
             finishRecording(success: true)
@@ -103,17 +130,42 @@ class ConversationViewController: RecordVoiceViewController {
     override func finishRecording(success: Bool) {
         super.finishRecording(success: success)
         
-        
-        //        if success {
-        //            recordButton.setTitle("Tap to Re-record", for: .normal)
-        //        } else {
-        //            recordButton.setTitle("Tap to Record", for: .normal)
-        //            // recording failed :(
-        //        }
+        animateWhenRecording(false)
     }
     
     override func speechTo(text: String) {
+        super.speechTo(text: text)
+        
         viewModel.addNewMess(text: text)
+    }
+    
+    override func updateVoiceLevel(level: CGFloat) {
+        voiceLevel.snp.updateConstraints {
+            $0.width.equalTo(level * 300 / 25) // scaled to max at 300 (our height of our bar)
+        }
+    }
+    
+    func animateWhenRecording(_ isRecording: Bool) {
+        pulsatingButton.isHidden = !isRecording
+        voiceLevel.isHidden = !isRecording
+        voiceLevel.snp.updateConstraints {
+            $0.width.equalTo(0)
+        }
+    }
+    
+    /// Scroll to last item in tableview
+    /// - Parameters:
+    ///   - pos: Scroll Position
+    func scrollToLastItem(at pos: UITableView.ScrollPosition = .bottom, animated: Bool = true) {
+        guard tableView.numberOfSections > 0 else { return }
+        
+        let lastSection = tableView.numberOfSections - 1
+        let lastItemIndex = tableView.numberOfRows(inSection: lastSection) - 1
+        
+        guard lastItemIndex >= 0 else { return }
+        
+        let indexPath = IndexPath(row: lastItemIndex, section: lastSection)
+        tableView.scrollToRow(at: indexPath, at: pos, animated: animated)
     }
 }
 

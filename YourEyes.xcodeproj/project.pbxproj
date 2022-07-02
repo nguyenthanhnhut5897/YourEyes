@@ -18,6 +18,10 @@
 		902F3A272868A27800481C30 /* UITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A262868A27800481C30 /* UITableViewExtensions.swift */; };
 		902F3A292868B21800481C30 /* RecordVoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902F3A282868B21800481C30 /* RecordVoiceViewController.swift */; };
 		903974592868430A007376A8 /* Pods_YourEyes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0326B647336749BBF86F1C79 /* Pods_YourEyes.framework */; };
+		9052379628700B6F003A65D6 /* TextToSpeech.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9052379528700B6F003A65D6 /* TextToSpeech.swift */; };
+		905237982870156E003A65D6 /* PlusatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905237972870156E003A65D6 /* PlusatingButton.swift */; };
+		9052379C2870199F003A65D6 /* OutComeMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9052379A2870199F003A65D6 /* OutComeMessageCell.swift */; };
+		9052379D2870199F003A65D6 /* OutComeMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9052379B2870199F003A65D6 /* OutComeMessageModel.swift */; };
 		9084495C28680914008237F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9084495B28680914008237F3 /* AppDelegate.swift */; };
 		9084496628680914008237F3 /* YourEyes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9084496428680914008237F3 /* YourEyes.xcdatamodeld */; };
 		9084496828680918008237F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9084496728680918008237F3 /* Assets.xcassets */; };
@@ -77,6 +81,10 @@
 		902F3A2428689FCD00481C30 /* InComeMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InComeMessageModel.swift; sourceTree = "<group>"; };
 		902F3A262868A27800481C30 /* UITableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
 		902F3A282868B21800481C30 /* RecordVoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVoiceViewController.swift; sourceTree = "<group>"; };
+		9052379528700B6F003A65D6 /* TextToSpeech.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToSpeech.swift; sourceTree = "<group>"; };
+		905237972870156E003A65D6 /* PlusatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusatingButton.swift; sourceTree = "<group>"; };
+		9052379A2870199F003A65D6 /* OutComeMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutComeMessageCell.swift; sourceTree = "<group>"; };
+		9052379B2870199F003A65D6 /* OutComeMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutComeMessageModel.swift; sourceTree = "<group>"; };
 		9084495828680914008237F3 /* YourEyes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YourEyes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9084495B28680914008237F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9084496528680914008237F3 /* YourEyes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = YourEyes.xcdatamodel; sourceTree = "<group>"; };
@@ -175,6 +183,7 @@
 		902F3A1B28689BF500481C30 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				905237992870197E003A65D6 /* OutComeMessage */,
 				902F3A2128689F8D00481C30 /* InComeMessage */,
 			);
 			path = Views;
@@ -195,6 +204,15 @@
 				902F3A2428689FCD00481C30 /* InComeMessageModel.swift */,
 			);
 			path = InComeMessage;
+			sourceTree = "<group>";
+		};
+		905237992870197E003A65D6 /* OutComeMessage */ = {
+			isa = PBXGroup;
+			children = (
+				9052379A2870199F003A65D6 /* OutComeMessageCell.swift */,
+				9052379B2870199F003A65D6 /* OutComeMessageModel.swift */,
+			);
+			path = OutComeMessage;
 			sourceTree = "<group>";
 		};
 		9084494F28680914008237F3 = {
@@ -299,6 +317,8 @@
 				9084499C28680FDB008237F3 /* ViewUI.swift */,
 				908449A328681213008237F3 /* HideKeyboardable.swift */,
 				908449B328681CCA008237F3 /* Font.swift */,
+				9052379528700B6F003A65D6 /* TextToSpeech.swift */,
+				905237972870156E003A65D6 /* PlusatingButton.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -573,6 +593,7 @@
 				908449A428681213008237F3 /* HideKeyboardable.swift in Sources */,
 				902F3A2328689FC300481C30 /* InComeMessageCell.swift in Sources */,
 				902F3A1A28689B9100481C30 /* BaseViewModel.swift in Sources */,
+				9052379D2870199F003A65D6 /* OutComeMessageModel.swift in Sources */,
 				908449B728681ED9008237F3 /* CameraViewController.swift in Sources */,
 				9084499628680D70008237F3 /* YENavigationController.swift in Sources */,
 				902F3A292868B21800481C30 /* RecordVoiceViewController.swift in Sources */,
@@ -587,10 +608,13 @@
 				902F3A1828689B3900481C30 /* BaseTabelViewCell.swift in Sources */,
 				902F3A1428689AC900481C30 /* ConversationViewController.swift in Sources */,
 				902F3A2028689D0C00481C30 /* ConversationViewModel.swift in Sources */,
+				9052379628700B6F003A65D6 /* TextToSpeech.swift in Sources */,
 				9084499B28680F1E008237F3 /* BaseViewController.swift in Sources */,
 				908449A82868170E008237F3 /* ErrorExtensions.swift in Sources */,
 				9084499D28680FDB008237F3 /* ViewUI.swift in Sources */,
+				9052379C2870199F003A65D6 /* OutComeMessageCell.swift in Sources */,
 				908449A62868137E008237F3 /* DataCenter.swift in Sources */,
+				905237982870156E003A65D6 /* PlusatingButton.swift in Sources */,
 				902F3A1E28689C8100481C30 /* MessageResponse.swift in Sources */,
 				902F3A1628689B1D00481C30 /* TableViewCellProtocol.swift in Sources */,
 				9084499428680D36008237F3 /* YEBaseViewController.swift in Sources */,

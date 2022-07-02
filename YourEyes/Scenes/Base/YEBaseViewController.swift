@@ -12,7 +12,8 @@ class YEBaseViewController: BaseViewController, UIScrollViewDelegate {
     var isFirstBlur: Bool = true
     
     lazy fileprivate var timer = Timer()
-    lazy fileprivate var countTimer = 0
+    lazy fileprivate var countTimer: TimeInterval = 0
+    lazy var maxCountTimer: TimeInterval = 30
     
     lazy var scrollView = UIScrollView(frame: .zero)
     
@@ -289,18 +290,18 @@ extension YEBaseViewController {
 
 // MARK: Count Timer
 extension YEBaseViewController {
-    func startCountTimer() {
+    func startCountTimer(timeInterval: TimeInterval) {
         timer.invalidate()
         countTimer = 0
-        timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(handleInput), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(handleInput(_:)), userInfo: nil, repeats: true)
     }
     
     @objc func handleFinishCountTimer() {}
     
-    @objc fileprivate func handleInput() {
-        countTimer += 1
+    @objc func handleInput(_ timer: Timer) {
+        countTimer += timer.timeInterval
         
-        if countTimer == 3 {
+        if countTimer >= maxCountTimer {
             timer.invalidate()
             countTimer = 0
             handleFinishCountTimer()

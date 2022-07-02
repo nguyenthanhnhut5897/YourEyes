@@ -40,6 +40,12 @@ class BaseViewModel {
         return numberSections == 0 ? 0 : (numberSections - 1)
     }
     
+    var lastIndexPath: IndexPath {
+        let lastSection = lastSectionIndex
+        
+        return IndexPath(row: numberRowOfSections(lastSection), section: lastSection)
+    }
+    
     func sectionHeight(at section: Int) -> CGFloat {
         return sectionModel(at: section)?.height ?? 0
     }

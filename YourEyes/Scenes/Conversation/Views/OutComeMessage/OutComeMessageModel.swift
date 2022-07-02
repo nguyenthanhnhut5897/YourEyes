@@ -1,5 +1,5 @@
 //
-//  InComeMessageModel.swift
+//  OutComeMessageModel.swift
 //  YourEyes
 //
 //  Created by Nguyen Thanh Nhut on 2022/06/26.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class InComeMessageModel: BaseCellPresentable {
+class OutComeMessageModel: BaseCellPresentable {
     var row: Int
     
-    var identifier: String = InComeMessageCell.className
+    var identifier: String = OutComeMessageCell.className
     
     var height: CGFloat = UITableView.automaticDimension
     

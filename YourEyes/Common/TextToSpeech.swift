@@ -23,6 +23,13 @@ class TextToSpeech: NSObject, AVSpeechSynthesizerDelegate {
     }
     
     func sayOne() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .default, options: .defaultToSpeaker)
+            try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("audioSession properties weren't set because of an error.")
+        }
+
         if let sentence = sentences.first {
             sentences.removeFirst()
             let utter = AVSpeechUtterance(string: sentence)

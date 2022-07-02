@@ -28,6 +28,8 @@ class CameraViewController: YEBaseViewController {
     }
     var stillImageOutput = AVCapturePhotoOutput()
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    let textToSpeech = TextToSpeech()
+    var isAllowCamera: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,14 +52,18 @@ class CameraViewController: YEBaseViewController {
             $0.height.equalTo(UIScreen.main.bounds.height / 5)
             $0.bottom.equalTo(-ViewUI.MainBottomInset)
         }
-        
-        pressButton.isUserInteractionEnabled = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        guard pressButton.isUserInteractionEnabled else {
+        if isFirstLayout {
+            textToSpeech.start(["Please press the center bottom button to take a picture."], [1])
+        }
+        
+        isFirstLayout = false
+        
+        guard isAllowCamera else {
             showCameraIfAuthorized()
             return
         }
@@ -77,10 +83,12 @@ class CameraViewController: YEBaseViewController {
         switch cameraAuthorization {
         case .authorized:
             self.showCamera()
+            self.isAllowCamera = true
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self] (authorized) in
                 DispatchQueue.main.async { [weak self] in
                     if authorized {
+                        self?.isAllowCamera = true
                         self?.showCamera()
                     } else {
                         print("handle Denied Camera Authorization")
@@ -123,8 +131,6 @@ class CameraViewController: YEBaseViewController {
     }
     
     func setupLivePreview() {
-        pressButton.isUserInteractionEnabled = true
-        
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         videoPreviewLayer?.videoGravity = .resizeAspectFill
         videoPreviewLayer?.connection?.videoOrientation = .portrait
@@ -137,8 +143,26 @@ class CameraViewController: YEBaseViewController {
     }
     
     @objc func didTakePhoto() {
+#if targetEnvironment(simulator)
+        let model = ConversationViewModel(imageData: nil)
+        let vc = ConversationViewController()
+        vc.viewModel = model
+        
+        navigationController?.pushViewController(vc, animated: true)
+#else
+        guard isAllowCamera else {
+            showCameraIfAuthorized()
+            return
+        }
+        
+        if !captureSession.isRunning {
+            captureSession.startRunning()
+        }
+        
         let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         stillImageOutput.capturePhoto(with: settings, delegate: self)
+        
+#endif
     }
 }
 

@@ -30,9 +30,6 @@ import SVProgressHUD
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
         
-        let model = ConversationViewModel(imageData: nil)
-        let vc = ConversationViewController()
-        vc.viewModel = model
         let navi = YENavigationController(rootViewController: CameraViewController())
         rootViewController = navi
         

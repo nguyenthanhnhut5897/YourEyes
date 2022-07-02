@@ -18,11 +18,6 @@ class ConversationViewModel: BaseViewModel {
         self.init()
         
         self.imageData = imageData
-        
-        for i in 1...20 {
-            messages.append(MessageResponse(objectId: "abc", message: "InComeMessageModel(message: message, section: lastSectionIndex, \(i)", type: Bool.random() ? MessageType.Incoming.rawValue : MessageType.Outcoming.rawValue, date: Date()))
-        }
-        
         self.createViewModels()
     }
     
@@ -43,9 +38,8 @@ class ConversationViewModel: BaseViewModel {
         bindResult()
     }
     
-    func addNewMess(text: String) {
-        messages.append(MessageResponse(objectId: "", message: text, type: Bool.random() ? MessageType.Incoming.rawValue : MessageType.Outcoming.rawValue, date: Date()))
-        
+    func addNewMess(text: String, type: MessageType) {
+        messages.append(MessageResponse(objectId: "", message: text, type: type.rawValue, date: Date()))
         createViewModels()
     }
 }

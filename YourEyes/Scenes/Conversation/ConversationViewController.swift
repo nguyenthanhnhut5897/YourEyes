@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import SVProgressHUD
 
 struct ConversationViewControllerUX {
     static let ButtonSize: CGFloat = 64
@@ -18,6 +19,7 @@ struct ConversationViewControllerUX {
 class ConversationViewController: RecordVoiceViewController {
     let backgroundImageview = UIImageView().then {
         $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
     }
     let tableView = UITableView()
     let voiceButton = UIButton().then {
@@ -86,6 +88,7 @@ class ConversationViewController: RecordVoiceViewController {
         pulsatingButton.center = voiceButton.center
         pulsatingButton.pulse()
         isFirstLayout = false
+        textToSpeech.start(["Please press the center bottom button to record your questions."], [1])
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -110,11 +113,11 @@ class ConversationViewController: RecordVoiceViewController {
     }
     
     @objc func didTapVoiceButton() {
-        guard isAllowRecording else {
+        guard isAllowRecording, isAllowSpeech else {
             requestRecording()
             return
         }
-        
+
         loadRecording()
     }
     
@@ -136,7 +139,12 @@ class ConversationViewController: RecordVoiceViewController {
     override func speechTo(text: String) {
         super.speechTo(text: text)
         
-        viewModel.addNewMess(text: text)
+        viewModel.addNewMess(text: text, type: .Outcoming)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10)) { [weak self] in
+            self?.viewModel.addNewMess(text: "Sound good!", type: .Incoming)
+            self?.textToSpeech.start(["Sound good!"], [1])
+        }
     }
     
     override func updateVoiceLevel(level: CGFloat) {

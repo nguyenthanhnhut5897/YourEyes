@@ -11,8 +11,8 @@ class YEBaseViewController: BaseViewController, UIScrollViewDelegate {
     var isFirstLayout: Bool = true
     var isFirstBlur: Bool = true
     
-    lazy fileprivate var timer = Timer()
-    lazy fileprivate var countTimer: TimeInterval = 0
+    lazy var timer = Timer()
+    lazy var countTimer: TimeInterval = 0
     lazy var maxCountTimer: TimeInterval = 30
     
     lazy var scrollView = UIScrollView(frame: .zero)

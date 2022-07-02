@@ -13,38 +13,31 @@ import SVProgressHUD
 class RecordVoiceViewController: YEBaseViewController {
     var recordingSession: AVAudioSession?
     var audioRecorder: AVAudioRecorder?
-    var isRequestRecording: Bool = false
+    var hasRequestedRecording: Bool = false
     var isAllowRecording: Bool = false
+    var isAllowSpeech: Bool = false
     let textToSpeech = TextToSpeech()
     
     // MARK: Voice record Permission
     func requestRecording() {
         recordingSession = AVAudioSession.sharedInstance()
 
-        do {
-            try recordingSession?.setCategory(.playAndRecord, mode: .default)
-            try recordingSession?.setActive(true)
-            
-            recordingSession?.requestRecordPermission() { [weak self] allowed in
-                DispatchQueue.main.async {
-                    if allowed {
-                        self?.isAllowRecording = true
-                        self?.loadRecording()
-                        self?.requestTranscribePermissions()
-                    } else {
-                        self?.handleDeniedAudioAuthorization()
-                    }
-                    
-                    self?.isRequestRecording = true
+        recordingSession?.requestRecordPermission() { [weak self] allowed in
+            DispatchQueue.main.async {
+                if allowed {
+                    self?.isAllowRecording = true
+                    self?.requestTranscribePermissions()
+                } else {
+                    self?.handleDeniedAudioAuthorization(self?.hasRequestedRecording)
                 }
+                
+                self?.hasRequestedRecording = true
             }
-        } catch {
-            // failed to record!
         }
     }
     
-    private func handleDeniedAudioAuthorization() {
-        guard isRequestRecording else { return }
+    private func handleDeniedAudioAuthorization(_ hasRequested: Bool?) {
+        guard hasRequested == true else { return }
         
         self.showAlertWithTwoOption(title: "", message: "Go to setting", okAction: {
             if let appSettings = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(appSettings) {
@@ -58,16 +51,20 @@ class RecordVoiceViewController: YEBaseViewController {
         switch SFSpeechRecognizer.authorizationStatus() {
         case .notDetermined:
             SFSpeechRecognizer.requestAuthorization { authStatus in
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
                     if authStatus == .authorized {
-                        print("Good to go!")
+                        self?.isAllowSpeech = true
                     } else {
                         print("Transcription permission was declined.")
                     }
                 }
             }
         case .restricted, .denied:
-            self.handleDeniedAudioAuthorization()
+            handleDeniedAudioAuthorization(true)
+            
+        case .authorized:
+            isAllowSpeech = true
+            loadRecording()
         default:
             break
         }
@@ -86,13 +83,14 @@ class RecordVoiceViewController: YEBaseViewController {
         ]
 
         do {
+            try recordingSession?.setCategory(.playAndRecord, mode: .default)
+            try recordingSession?.setActive(true)
+                
             audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
             audioRecorder?.delegate = self
             audioRecorder?.isMeteringEnabled = true
             audioRecorder?.record()
             startCountTimer(timeInterval: 0.01)
-            
-//            recordButton.setTitle("Tap to Stop", for: .normal)
         } catch {
             finishRecording(success: false)
         }
@@ -101,6 +99,7 @@ class RecordVoiceViewController: YEBaseViewController {
     func finishRecording(success: Bool) {
         audioRecorder?.stop()
         audioRecorder = nil
+        timer.invalidate()
         
         transcribeSound()
     }
@@ -132,27 +131,29 @@ class RecordVoiceViewController: YEBaseViewController {
         // start recognition!
         recognizer?.recognitionTask(with: request) { [unowned self] (result, error) in
             
-            SVProgressHUD.dismiss()
-            
             // abort if we didn't get any transcription back
             guard let result = result else {
                 print("There was an error: \(error!)")
-                self.showAlertWith(message: "There was an error")
-                self.textToSpeech.start(["There was an error"], [1])
+                let errorString = error?.localizedDescription ?? "No speech detected"
+                self.showAlertWith(message: errorString)
+                self.textToSpeech.start([errorString], [1])
+                
+                SVProgressHUD.dismiss()
+                
                 return
             }
 
             // if we got the final transcription back, print it
             if result.isFinal {
                 // pull out the best transcription...
-                print(result.bestTranscription.formattedString)
                 speechTo(text: result.bestTranscription.formattedString)
+                SVProgressHUD.dismiss()
             }
         }
     }
     
     func speechTo(text: String) {
-        self.textToSpeech.start([text], [1])
+//        textToSpeech.start([text], [1])
     }
     
     // MARK:

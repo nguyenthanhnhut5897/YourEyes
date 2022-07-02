@@ -9,7 +9,7 @@ import UIKit
 
 class InComeMessageCell: BaseTableViewCell, BaseCellConfigurable {
     let containerView = UIView().then {
-        $0.backgroundColor = .blue.withAlphaComponent(0.4)
+        $0.backgroundColor = .blue.withAlphaComponent(0.6)
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 8
     }

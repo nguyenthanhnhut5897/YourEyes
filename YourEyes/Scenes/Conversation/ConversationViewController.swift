@@ -117,7 +117,7 @@ class ConversationViewController: RecordVoiceViewController {
                 self.showCommonAlertError(error)
             } else {
                 DispatchQueue.main.async { [weak self] in
-                    self?.textToSpeech.start([message?.message ?? ""], [1])
+                    self?.textToSpeech.start([message ?? ""], [1])
                 }
             }
         }

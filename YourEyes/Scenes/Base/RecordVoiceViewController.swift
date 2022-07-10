@@ -134,8 +134,8 @@ class RecordVoiceViewController: YEBaseViewController {
             // abort if we didn't get any transcription back
             guard let result = result else {
                 print("There was an error: \(error!)")
-                let errorString = error?.localizedDescription ?? "No speech detected"
-                self.showAlertWith(message: errorString)
+                let errorString = "Sorry, I can't hear, please speak again!"
+//                self.showAlertWith(message: errorString)
                 self.textToSpeech.start([errorString], [1])
                 
                 SVProgressHUD.dismiss()
@@ -147,14 +147,11 @@ class RecordVoiceViewController: YEBaseViewController {
             if result.isFinal {
                 // pull out the best transcription...
                 speechTo(text: result.bestTranscription.formattedString)
-                SVProgressHUD.dismiss()
             }
         }
     }
     
-    func speechTo(text: String) {
-//        textToSpeech.start([text], [1])
-    }
+    func speechTo(text: String) {}
     
     // MARK:
     override func handleInput(_ timer: Timer) {

@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import SVProgressHUD
 
 struct ConversationViewControllerUX {
     static let ButtonSize: CGFloat = 64
@@ -110,6 +109,18 @@ class ConversationViewController: RecordVoiceViewController {
                 }
             }
         }
+        
+        viewModel.answerResult = { [weak self] message in
+            guard let self = self else { return }
+            
+            if let error = self.viewModel.error {
+                self.showCommonAlertError(error)
+            } else {
+                DispatchQueue.main.async { [weak self] in
+                    self?.textToSpeech.start([message?.message ?? ""], [1])
+                }
+            }
+        }
     }
     
     @objc func didTapVoiceButton() {
@@ -139,12 +150,7 @@ class ConversationViewController: RecordVoiceViewController {
     override func speechTo(text: String) {
         super.speechTo(text: text)
         
-        viewModel.addNewMess(text: text, type: .Outcoming)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10)) { [weak self] in
-            self?.viewModel.addNewMess(text: "Sound good!", type: .Incoming)
-            self?.textToSpeech.start(["Sound good!"], [1])
-        }
+        viewModel.addNewQuestion(text: text)
     }
     
     override func updateVoiceLevel(level: CGFloat) {

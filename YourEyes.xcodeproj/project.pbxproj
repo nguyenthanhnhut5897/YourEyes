@@ -22,6 +22,8 @@
 		905237982870156E003A65D6 /* PlusatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905237972870156E003A65D6 /* PlusatingButton.swift */; };
 		9052379C2870199F003A65D6 /* OutComeMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9052379A2870199F003A65D6 /* OutComeMessageCell.swift */; };
 		9052379D2870199F003A65D6 /* OutComeMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9052379B2870199F003A65D6 /* OutComeMessageModel.swift */; };
+		905721E4287A708500ADF088 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905721E3287A708500ADF088 /* UIImageExtensions.swift */; };
+		905721ED287A761B00ADF088 /* GetAnswerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905721EC287A761B00ADF088 /* GetAnswerRequest.swift */; };
 		9084495C28680914008237F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9084495B28680914008237F3 /* AppDelegate.swift */; };
 		9084496628680914008237F3 /* YourEyes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9084496428680914008237F3 /* YourEyes.xcdatamodeld */; };
 		9084496828680918008237F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9084496728680918008237F3 /* Assets.xcassets */; };
@@ -85,6 +87,8 @@
 		905237972870156E003A65D6 /* PlusatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusatingButton.swift; sourceTree = "<group>"; };
 		9052379A2870199F003A65D6 /* OutComeMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutComeMessageCell.swift; sourceTree = "<group>"; };
 		9052379B2870199F003A65D6 /* OutComeMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutComeMessageModel.swift; sourceTree = "<group>"; };
+		905721E3287A708500ADF088 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		905721EC287A761B00ADF088 /* GetAnswerRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAnswerRequest.swift; sourceTree = "<group>"; };
 		9084495828680914008237F3 /* YourEyes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YourEyes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9084495B28680914008237F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9084496528680914008237F3 /* YourEyes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = YourEyes.xcdatamodel; sourceTree = "<group>"; };
@@ -215,6 +219,14 @@
 			path = OutComeMessage;
 			sourceTree = "<group>";
 		};
+		905721E5287A74ED00ADF088 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				905721EC287A761B00ADF088 /* GetAnswerRequest.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		9084494F28680914008237F3 = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +252,7 @@
 		9084495A28680914008237F3 /* YourEyes */ = {
 			isa = PBXGroup;
 			children = (
+				905721E5287A74ED00ADF088 /* Services */,
 				902F3A1C28689C1700481C30 /* Entities */,
 				908449AC286817DB008237F3 /* Localize */,
 				908449A928681758008237F3 /* Enums */,
@@ -306,6 +319,7 @@
 				908449AF28681A1F008237F3 /* StringExtensions.swift */,
 				908449B128681BA6008237F3 /* UIViewExtensions.swift */,
 				902F3A262868A27800481C30 /* UITableViewExtensions.swift */,
+				905721E3287A708500ADF088 /* UIImageExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -597,10 +611,12 @@
 				908449B728681ED9008237F3 /* CameraViewController.swift in Sources */,
 				9084499628680D70008237F3 /* YENavigationController.swift in Sources */,
 				902F3A292868B21800481C30 /* RecordVoiceViewController.swift in Sources */,
+				905721ED287A761B00ADF088 /* GetAnswerRequest.swift in Sources */,
 				908449AE28681971008237F3 /* Strings.swift in Sources */,
 				9084495C28680914008237F3 /* AppDelegate.swift in Sources */,
 				908449B428681CCA008237F3 /* Font.swift in Sources */,
 				9084496628680914008237F3 /* YourEyes.xcdatamodeld in Sources */,
+				905721E4287A708500ADF088 /* UIImageExtensions.swift in Sources */,
 				908449A2286811C2008237F3 /* Then.swift in Sources */,
 				908449AB2868177B008237F3 /* ErrorCode.swift in Sources */,
 				902F3A272868A27800481C30 /* UITableViewExtensions.swift in Sources */,

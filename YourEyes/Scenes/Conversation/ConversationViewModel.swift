@@ -10,6 +10,7 @@ import UIKit
 
 class ConversationViewModel: BaseViewModel {
     var bindResult : (() -> ()) = {}
+    var answerResult : ((MessageResponse?) -> ())?
     var error: Error?
     var imageData: UIImage?
     var messages: [MessageResponse] = []
@@ -19,6 +20,25 @@ class ConversationViewModel: BaseViewModel {
         
         self.imageData = imageData
         self.createViewModels()
+    }
+    
+    func sendAQuestion(question: String) {
+        self.error = nil
+        
+        getAnAnswer(question: question, imageData: imageData ?? UIImage(named: "camera_ic")) { [weak self] (message, error) in
+            
+            SVProgressHUD.dismiss()
+            
+            if var newMessage = message {
+                newMessage.type = MessageType.Incoming.rawValue
+                self?.messages.append(newMessage)
+                self?.createViewModels()
+                self?.answerResult?(newMessage)
+            } else {
+                self?.error = error
+                self?.answerResult?(nil)
+            }
+        }
     }
     
     private func createViewModels() {
@@ -38,8 +58,10 @@ class ConversationViewModel: BaseViewModel {
         bindResult()
     }
     
-    func addNewMess(text: String, type: MessageType) {
-        messages.append(MessageResponse(objectId: "", message: text, type: type.rawValue, date: Date()))
+    func addNewQuestion(text: String) {
+        messages.append(MessageResponse(objectId: "", message: text, type: MessageType.Outcoming.rawValue, date: Date()))
         createViewModels()
+        
+        sendAQuestion(question: text)
     }
 }

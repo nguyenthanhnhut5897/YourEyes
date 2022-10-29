@@ -7,9 +7,12 @@
 import UIKit
 
 func getAnAnswer(question: String, imageData: UIImage?, completionHandler: @escaping (MessageResponse?, Error?) -> Void) {
-    guard let url = URL(string: "https://rvt101.herokuapp.com/model"),
+    guard let url = URL(string: "https://eecc-14-187-0-153.ngrok.io/model"),
           let imageBase64 = imageData?.toBase64(withPrefix: "data:image/jpeg;base64,")
-    else { return }
+    else {
+        completionHandler(nil, nil)
+        return
+    }
     
     let params: [String: String] = ["question": question, "image": imageBase64]
     

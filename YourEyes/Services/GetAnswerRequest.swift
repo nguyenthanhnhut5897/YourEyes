@@ -7,7 +7,7 @@
 import UIKit
 
 func getAnAnswer(question: String, imageData: UIImage?, completionHandler: @escaping (MessageResponse?, Error?) -> Void) {
-    guard let url = URL(string: "https://eecc-14-187-0-153.ngrok.io/model"),
+    guard let url = URL(string: "https://9199-125-235-238-57.ngrok.io/model"),
           let imageBase64 = imageData?.toBase64(withPrefix: "data:image/jpeg;base64,")
     else {
         completionHandler(nil, nil)

@@ -100,30 +100,32 @@ class YEBaseViewController: BaseViewController, UIScrollViewDelegate {
                 // Remove last error code
                 dataCenter().lastErrorCodePopup = -1
             }))
-            
+            executeBlockOnMainIfNeeded {
             if let errCode = errCode {
-                alert.view.tag = errCode
+                alert.view.tag = errCode <= 0 ? 1 : errCode
             }
-            
+            }
             // Save last error code when show new error pop up
-            dataCenter().lastErrorCodePopup = errCode ?? -1
+            dataCenter().lastErrorCodePopup = alert.view.tag
             self?.present(alert, animated: true, completion: nil)
         }
         
-        if let topvc = UIApplication.topViewController() as? UIAlertController {
-            if let errCode = errCode {
-                if topvc.view.tag != errCode {
+        executeBlockOnMainIfNeeded {
+            if let topvc = UIApplication.topViewController() as? UIAlertController {
+                if let errCode = errCode {
+                    if topvc.view.tag != errCode {
+                        topvc.dismiss(animated: false, completion: {
+                            showAlert()
+                        })
+                    }
+                } else {
                     topvc.dismiss(animated: false, completion: {
                         showAlert()
                     })
                 }
             } else {
-                topvc.dismiss(animated: false, completion: {
-                    showAlert()
-                })
+                showAlert()
             }
-        } else {
-            showAlert()
         }
     }
     

@@ -9,9 +9,9 @@ import UIKit
 
 class OutComeMessageCell: BaseTableViewCell, BaseCellConfigurable {
     let containerView = UIView().then {
-        $0.backgroundColor = .gray.withAlphaComponent(0.6)
+        $0.backgroundColor = .gray
         $0.clipsToBounds = true
-        $0.layer.cornerRadius = 8
+        $0.layer.cornerRadius = 16
     }
     let contentLabel = UILabel().then {
         $0.textColor = .white
@@ -38,7 +38,7 @@ class OutComeMessageCell: BaseTableViewCell, BaseCellConfigurable {
         containerView.addSubviews(contentLabel)
         containerView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(4)
-            $0.leading.greaterThanOrEqualToSuperview().offset(ViewUI.Padding * 5)
+            $0.leading.greaterThanOrEqualToSuperview().offset(ViewUI.Padding * 10)
             $0.trailing.equalToSuperview().offset(-ViewUI.Padding * 2)
         }
         

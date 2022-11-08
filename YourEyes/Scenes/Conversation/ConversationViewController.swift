@@ -110,14 +110,14 @@ class ConversationViewController: RecordVoiceViewController {
             }
         }
         
-        viewModel.answerResult = { [weak self] message in
+        viewModel.answerResult = { [weak self] messages in
             guard let self = self else { return }
             
             if let error = self.viewModel.error {
                 self.showCommonAlertError(error)
             } else {
                 DispatchQueue.main.async { [weak self] in
-                    self?.textToSpeech.start([message ?? ""], [1])
+                    self?.textToSpeech.start(messages ?? [], [1])
                 }
             }
         }
